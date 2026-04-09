@@ -37,10 +37,11 @@ namespace GameSystemsCookbook.Demos.PaddleBall
         // Properties
         public int TargetScore => m_TargetScore;
 
-        // This subscribes to the ScoreManager's updates. 
+        // This subscribes to the ScoreManager's updates.
         private void OnEnable()
         {
-            m_ScoreManagerUpdated.OnEventRaised += UpdateScoreManager;
+            if (m_ScoreManagerUpdated != null)
+                m_ScoreManagerUpdated.OnEventRaised += UpdateScoreManager;
 
             // Check to see if all required fields in the Inspector exist
             NullRefChecker.Validate(this);
@@ -49,7 +50,8 @@ namespace GameSystemsCookbook.Demos.PaddleBall
         // This unsubscribes from the ScoreManager's updates to prevent errors.
         private void OnDisable()
         {
-            m_ScoreManagerUpdated.OnEventRaised -= UpdateScoreManager;
+            if (m_ScoreManagerUpdated != null)
+                m_ScoreManagerUpdated.OnEventRaised -= UpdateScoreManager;
         }
 
         // This checks a list of current PlayerScores when the ScoreManager updates.

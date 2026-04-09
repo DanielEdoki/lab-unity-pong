@@ -1,0 +1,25 @@
+{
+    "name": "GameSystems.Tests.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5ad4128491cce4e4695fff84fed90627",
+        "GameSystems.PaddleBall",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

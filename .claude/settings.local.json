@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Program Files/Unity/Hub/Editor//**)",
+      "Read(//c/Program Files/Unity Hub//**)",
+      "Bash(where unity:*)",
+      "Bash(\"/c/Program Files/Unity/Hub/Editor/6000.4.0f1/Editor/Unity.exe\" -runTests -batchmode -projectPath \"C:\\\\Users\\\\danie\\\\Documents\\\\lab-unity-pong\" -testPlatform EditMode -testResults \"C:\\\\Users\\\\danie\\\\Documents\\\\lab-unity-pong\\\\TestResults.xml\" -logFile \"C:\\\\Users\\\\danie\\\\Documents\\\\lab-unity-pong\\\\unity_test.log\")",
+      "Bash(echo \"Exit code: $?\")"
+    ]
+  }
+}

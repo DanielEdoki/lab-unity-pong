@@ -76,6 +76,22 @@ namespace GameSystemsCookbook.Demos.PaddleBall
 
         }
 
+        // Sets the input vector from an external source (e.g. AI controller)
+        public void SetAIInput(Vector2 input)
+        {
+            m_inputVector = input;
+        }
+
+        // Unsubscribes from human input events so AI can take over
+        public void DisableHumanInput()
+        {
+            if (m_inputReader == null)
+                return;
+
+            m_inputReader.P1Moved -= OnP1Moved;
+            m_inputReader.P2Moved -= OnP2Moved;
+        }
+
         // Move the paddle to its starting position
         private void ResetPosition()
         {

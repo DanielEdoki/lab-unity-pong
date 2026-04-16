@@ -5,6 +5,12 @@
         <ui:Label text="PLAY MODE" display-tooltip-when-elided="true" name="play-mode__title" picking-mode="Ignore" class="title-text" style="left: 12%; top: 15%; width: 36%;">
             <ui:Label display-tooltip-when-elided="true" name="play-mode__subheading" picking-mode="Ignore" text="Mini-games" class="subheading-text" />
         </ui:Label>
+        <ui:VisualElement name="difficulty__container" style="position: absolute; left: 13%; top: 35%; width: 35%; flex-direction: row; justify-content: flex-start; align-items: center;">
+            <ui:Label text="AI:" style="font-size: 28px; color: rgba(255, 255, 255, 0.6); margin-right: 10px; -unity-font-definition: url(&apos;project://database/Assets/_ThirdParty/Fonts/Inter/Inter-Bold/Inter-Bold%20SDF_FontAsset.asset?fileID=11400000&amp;guid=95b70fa7ea03d427e8c7511cab180b86&amp;type=2#Inter-Bold SDF_FontAsset&apos;);" />
+            <ui:Button text="BAD" name="difficulty__button-bad" class="difficulty-button" />
+            <ui:Button text="CASUAL" name="difficulty__button-casual" class="difficulty-button" />
+            <ui:Button text="PRO" name="difficulty__button-pro" class="difficulty-button" />
+        </ui:VisualElement>
         <ui:VisualElement name="play-mode__buttons" style="flex-basis: 60%; width: 35%; padding-bottom: 0; height: 56%; position: absolute; padding-left: 0; padding-right: 0; padding-top: 0; align-items: flex-start; -unity-text-align: middle-left; justify-content: flex-start; left: 13%; top: 46%;">
             <ui:Button text="CLASSIC" display-tooltip-when-elided="true" name="play-mode__button-a" class="menu-button" style="-unity-text-align: middle-left; width: 80%; -unity-font-definition: url(&apos;project://database/Assets/_ThirdParty/Fonts/Inter/Inter-Bold/Inter-Bold%20SDF_FontAsset.asset?fileID=11400000&amp;guid=95b70fa7ea03d427e8c7511cab180b86&amp;type=2#Inter-Bold SDF_FontAsset&apos;);" />
             <ui:Button text="HOCKEY" display-tooltip-when-elided="true" name="play-mode__button-b" enable-rich-text="false" class="menu-button" style="-unity-text-align: middle-left; width: 80%; font-size: 60px; left: 7%; -unity-font-definition: url(&apos;project://database/Assets/_ThirdParty/Fonts/Inter/Inter-Bold/Inter-Bold%20SDF_FontAsset.asset?fileID=11400000&amp;guid=95b70fa7ea03d427e8c7511cab180b86&amp;type=2#Inter-Bold SDF_FontAsset&apos;);" />
@@ -13,6 +19,6 @@
                 <ui:Label text="COMING SOON" display-tooltip-when-elided="true" name="coming-soon__label" style="position: absolute; left: 56%; font-size: 23px; color: rgb(255, 156, 0); top: 34%;" />
             </ui:Button>
         </ui:VisualElement>
-        <ui:Button text="⟵BACK" display-tooltip-when-elided="true" name="play-mode__back-button" class="back-button" />
+        <ui:Button text="&#x27F5;BACK" display-tooltip-when-elided="true" name="play-mode__back-button" class="back-button" />
     </ui:VisualElement>
 </ui:UXML>

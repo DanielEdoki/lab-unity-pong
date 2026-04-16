@@ -9,9 +9,10 @@ Unity 6 (`6000.4.0f1`) Pong game built on an event-driven ScriptableObject archi
 ## Key Commands
 
 - **Play the game:** Open `Assets/Scenes/Bootloader_Scene.unity` in Unity, press Play
-- **Controls:** Player 1: W/S, Player 2: Up/Down arrows, Restart: R
-- **MCP connection:** Window > MCP for Unity (requires `pip install mcpforunityserver`)
-- **Tests:** Unity Test Framework is installed (`com.unity.test-framework`) but no tests exist yet
+- **Controls:** Player 1: W/S, Player 2: Up/Down arrows (2P mode), Restart: R
+- **Single-player mode:** AI controls Player 2 by default. Disable via `AIPaddleSettings` asset (`Enabled = false`)
+- **MCP connection:** Window > MCP for Unity (requires `pip install mcpforunityserver`). Uses `UnityMCP` server (not `mcpforunity`)
+- **Tests:** Unity Test Framework (`com.unity.test-framework`), 36 EditMode tests in `Assets/Tests/Editor/`
 
 ## Architecture
 
@@ -33,6 +34,26 @@ InputReaderSO (InputSystem adapter)
 
 GameManager orchestrates state transitions by listening to and broadcasting events. It does not reference game objects directly.
 
+### AI Paddle System
+
+Single-player mode adds an AI opponent for Player 2. The AI is designed to be beatable — it reacts with delay and imperfect accuracy.
+
+```
+AIPaddleSettingsSO (config: reaction time, speed, accuracy, prediction)
+  → GameSetup (if AI enabled, adds AIPaddle component to P2, disables human input)
+    → AIPaddle (Update: tracks ball.y with delay/offset → Paddle.SetAIInput)
+      → Paddle (FixedUpdate: applies force via Rigidbody2D with boundary clamping)
+```
+
+**Key files:**
+- `Assets/PaddleBall/Scripts/AIPaddle.cs` — AI controller MonoBehaviour
+- `Assets/PaddleBall/Scripts/ScriptableObjects/AIPaddleSettingsSO.cs` — Difficulty config SO
+- `Assets/PaddleBall/Data/AIPaddleSettings.asset` — Default settings (assigned in all game scenes)
+
+**AI behavior:** Reaction delay timer updates `m_TargetY` periodically (not every frame). Random accuracy offset is applied each update cycle. Optional ball velocity prediction. Dead zone prevents jitter. Paddle.SetAIInput feeds into existing CalculateMovement/AddForce pipeline.
+
+**Toggling:** Set `Enabled = false` on the AIPaddleSettings asset, or clear the `AI Settings` field on GameSetup to revert to 2-player mode.
+
 ### Module Layout
 
 - **`Assets/PaddleBall/`** — Game-specific code (Ball, Paddle, Bouncer, ScoreGoal, managers, UI, SO data assets)
@@ -45,6 +66,7 @@ GameManager orchestrates state transitions by listening to and broadcasting even
 - **InputReaderSO** — Wraps Unity InputSystem, exposes `P1Moved`, `P2Moved`, `GameRestarted` as UnityActions
 - **PlayerIDSO** — Marker SO used as player identity (no strings/ints)
 - **ScoreObjectiveSO** — Win condition: checks if any player reaches target score
+- **AIPaddleSettingsSO** — AI difficulty config (reaction time, tracking speed, accuracy offset, dead zone, prediction)
 
 ### UI System
 
@@ -65,6 +87,13 @@ Stack-based navigation in `Assets/Core/UI/`. `UIManager` manages `View` subclass
 - **Null checks:** Use `?.` for System.Object, explicit `!= null` for UnityEngine.Object
 
 Full style reference: `Assets/Core/_StyleGuide/StyleExample.cs`
+
+## Unity API Notes (Unity 6)
+
+- **Rigidbody2D:** Use `linearVelocity` (not `velocity`) and `linearDamping` (not `drag`) — Unity 6 renamed these properties. Apply forces in `FixedUpdate` via `AddForce(vector, ForceMode2D.Impulse)`. Constant force produces acceleration, not constant speed — use max velocity checks to cap speed.
+- **ScriptableObject pattern:** `[CreateAssetMenu]` attribute for editor creation. Use `[SerializeField] private` fields with public read-only properties. Subscribe in `OnEnable`, unsubscribe in `OnDisable`.
+- **Input System:** `InputAction.performed += callback` to subscribe; `-=` to unsubscribe. Always enable/disable in `OnEnable`/`OnDisable`. `CallbackContext.ReadValue<T>()` extracts typed input values. `WasPerformedThisFrame()` checks action state.
+- **Physics timing:** `Update` runs before `FixedUpdate` each frame. Set input in `Update`, apply forces in `FixedUpdate` for correct physics integration.
 
 ## Dependencies
 

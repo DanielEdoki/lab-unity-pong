@@ -415,6 +415,56 @@
     padding-bottom: 0;
 }
 
+.difficulty-button {
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgba(255, 255, 255, 0.3);
+    border-right-color: rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.3);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -unity-font-definition: url('project://database/Assets/_ThirdParty/Fonts/Inter/Inter-Bold/Inter-Bold%20SDF_FontAsset.asset?fileID=11400000&guid=95b70fa7ea03d427e8c7511cab180b86&type=2#Inter-Bold SDF_FontAsset');
+    transition-duration: 0.15s;
+}
+
+.difficulty-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+    scale: 1.05 1.05;
+}
+
+.difficulty-button:active {
+    color: rgb(255, 156, 0);
+    border-left-color: rgb(255, 156, 0);
+    border-right-color: rgb(255, 156, 0);
+    border-top-color: rgb(255, 156, 0);
+    border-bottom-color: rgb(255, 156, 0);
+}
+
+.difficulty-button--selected {
+    color: rgb(255, 156, 0);
+    background-color: rgba(255, 156, 0, 0.2);
+    border-left-color: rgb(255, 156, 0);
+    border-right-color: rgb(255, 156, 0);
+    border-top-color: rgb(255, 156, 0);
+    border-bottom-color: rgb(255, 156, 0);
+}
+
 .background-image {
     position: absolute;
     width: 250%;

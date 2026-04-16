@@ -45,6 +45,10 @@ namespace GameSystemsCookbook.Demos.PaddleBall
         [Tooltip("Event relayer for Input System actions")]
         [SerializeField] private InputReaderSO m_InputReader;
 
+        [Header("AI Settings")]
+        [Tooltip("AI configuration for Player 2. Leave empty for 2-player mode")]
+        [SerializeField, Optional] private AIPaddleSettingsSO m_AISettings;
+
         [Header("Json Data")]
         [Tooltip("Json file for level data")]
         [SerializeField] private string m_JsonFilename;
@@ -106,7 +110,7 @@ namespace GameSystemsCookbook.Demos.PaddleBall
         // Create the ball, paddles, walls, and goals.
         public void SetupLevel()
         {
-            CreateBall();
+            Ball ball = CreateBall();
 
             Paddle p1 = CreatePaddle(m_InputReader, m_GameData.Player1);
             SetPaddleSprite(p1, m_GameData.P1Sprite);
@@ -115,8 +119,25 @@ namespace GameSystemsCookbook.Demos.PaddleBall
             SetPaddleSprite(p2, m_GameData.P2Sprite);
             p2.transform.Rotate(0f, 0f, 180f);
 
+            if (m_AISettings != null && m_AISettings.Enabled)
+            {
+                p2.DisableHumanInput();
+                AIPaddle aiPaddle = p2.gameObject.AddComponent<AIPaddle>();
+                aiPaddle.Initialize(m_AISettings, ball.transform, ball.GetComponent<Rigidbody2D>());
+            }
+
             CreateWalls();
             CreateGoals(m_GameData);
+            SetupNeonVisuals(ball, p1, p2);
+        }
+
+        private void SetupNeonVisuals(Ball ball, Paddle p1, Paddle p2)
+        {
+            NeonVisualManager neonManager = GetComponent<NeonVisualManager>();
+            if (neonManager == null)
+                neonManager = gameObject.AddComponent<NeonVisualManager>();
+
+            neonManager.Initialize(ball, p1, p2, m_GameData);
         }
 
         private void SetPaddleSprite(Paddle paddle, Sprite sprite)
